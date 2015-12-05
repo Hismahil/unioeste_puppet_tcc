@@ -1,0 +1,12 @@
+production:
+<% if @sgdb_name == 'mysql' %>
+  adapter: mysql2
+  socket: /var/run/mysqld/mysqld.sock
+<% else %>
+  adapter: postgresql
+<% end %>
+  encoding: utf8
+  pool: 5
+  database: <%= @database %>
+  username: <%= @username %>
+  password: <%= @password %>

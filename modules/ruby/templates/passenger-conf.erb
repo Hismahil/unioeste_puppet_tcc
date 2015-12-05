@@ -1,0 +1,7 @@
+LoadModule passenger_module <%= scope.lookupvar('ruby::passenger::module::passenger_mod_path') %>
+
+PassengerRoot <%= scope.lookupvar('ruby::passenger::module::passenger_path') %>
+PassengerRuby <%= scope.lookupvar('ruby::passenger::module::ruby_path') %>
+PassengerMaxPoolSize 6
+PassengerPoolIdleTime 0
+PassengerMaxRequests 1000

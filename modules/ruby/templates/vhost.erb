@@ -1,0 +1,15 @@
+<VirtualHost *:80>
+   ServerName <%= scope.lookupvar('ruby::passenger::vhost::server_name') %> 
+   DocumentRoot <%= scope.lookupvar('ruby::passenger::vhost::doc_root') %> 
+   <% if @rails_env == 'development' %>
+   	RailsEnv development
+   <% end %>
+
+   <Directory <%= scope.lookupvar('ruby::passenger::vhost::doc_root') %> >
+      AllowOverride all
+      Options -MultiViews
+   </Directory>
+
+   ErrorLog ${APACHE_LOG_DIR}/error.log
+   CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
