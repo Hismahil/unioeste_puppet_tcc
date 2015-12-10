@@ -4,7 +4,7 @@
 # $passenger_version	=> passenger version
 # $install_passenger 	=> for install passenger
 
-class ruby($version = '2.0',
+class ruby($version = '2.2',
 	$passenger_version = '5.0.9',
 	$user = undef,
 	$install_passenger = 'false') {
