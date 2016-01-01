@@ -3,12 +3,15 @@
 # $user					=> user for .gemrc file
 # $passenger_version	=> passenger version
 # $install_passenger 	=> for install passenger
+# $repo 				=> repository for ruby
 
 class ruby($version = '2.2',
 	$passenger_version = '5.0.9',
 	$user = undef,
-	$install_passenger = 'false') {
+	$install_passenger = 'false',
+	$repo = 'ppa:brightbox/ruby-ng') {
 
+	# ruby versions
 	$ruby = ["ruby${version}", "ruby${version}-dev"]
 
 	exec{ 'update':
@@ -16,19 +19,23 @@ class ruby($version = '2.2',
 		path		=> '/usr/bin:/bin',
 	}
 
+	# install dependencies
 	class { 'ruby::dependencies::ubuntu::ubuntu': 
 		require		=> Exec['update'],
 	}
 
+	# install repository
 	class { 'ruby::repository': 
 		require		=> Class['ruby::dependencies::ubuntu::ubuntu'],
 	}
 
+	# install rubies
 	package { $ruby:
 		ensure		=> installed,
 		require		=> Class['ruby::repository'],
 	}
 
+	# copy .gemrc
 	if $user != undef{
 		file {
 			"/home/${user}/.gemrc":
@@ -37,6 +44,7 @@ class ruby($version = '2.2',
 		}
 	}
 
+	# install passenger
 	if $install_passenger == 'true' {
 		class { 'ruby::passenger::passenger': 
 			passenger_version	=> $passenger_version,

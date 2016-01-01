@@ -1,6 +1,6 @@
 node default {
 	
-	$ruby_version = '2.0'
+	$ruby_version = '2.2'
 	$rails_version = '4.2.1'
 	
 	class { 'ruby':
@@ -14,24 +14,6 @@ node default {
     	version 	=> $rails_version,
     	require 	=> Class['ruby'],
   	}
-	
-	if versioncmp($ruby_version, '1.9.3') == 0 {
-		$chmod_gem_version = '1.9.3'
-	}
-	else {
-		$chmod_gem_version = "${ruby_version}.0"
-	}
-
-	if $chmod_gem_version != undef {
-		class { 'chmod': 
-			dir 			=> "/var/lib/gems/${chmod_gem_version}/gems", 
-			properties		=> '777',
-			require			=> Class['ruby'],
-		}
-	}
-	else {
-		fail('Não foi possivel mudar as permissões na pasta gems')	
-	}
 
 	exec { 'update-for-java':
 		command		=> 'apt-get update',

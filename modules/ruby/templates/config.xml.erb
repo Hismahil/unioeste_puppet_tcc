@@ -37,10 +37,20 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>bundle install
+      <command>cp /vagrant/database.yml /var/lib/jenkins/jobs/app/workspace/config
+cp /vagrant/secrets.yml /var/lib/jenkins/jobs/app/workspace/config
+bundle install
 rake db:create db:migrate RAILS_ENV=test
 rake db:test:prepare RAILS_ENV=test
-</command>
+rake test</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>cp /vagrant/tcc.pem /var/lib/jenkins/jobs/app/workspace
+cap production deploy
+cap deploy:set_database_cfg
+cap deploy:set_secrets_cfg
+cap bundler:install 
+cap deploy:restart</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

@@ -63,11 +63,7 @@ class ruby::passenger::passenger(
 		}
 	}
 	else {
-		exec { 'passenger-nginx':
-			path      => [ '${passenger_path}/bin/passenger', '/usr/bin', '/bin', '/usr/local/bin' ],
-	    	command   => 'passenger-install-nginx-module -a',
-	    	require		=> Class['ruby::passenger::memory'],
-		}
+		# nao implementado
 	}
 		
 }

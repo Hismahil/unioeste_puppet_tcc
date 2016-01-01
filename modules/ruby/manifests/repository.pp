@@ -1,7 +1,7 @@
 #	[class to install repository brightbox]
-class ruby::repository{
+class ruby::repository($repo){
 	exec{ 'ruby-ng':
-		command		=> 'apt-add-repository ppa:brightbox/ruby-ng',
+		command		=> "apt-add-repository ${repo}",
 		path		=> '/usr/bin:/bin',
 	}
 
