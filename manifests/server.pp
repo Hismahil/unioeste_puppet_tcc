@@ -19,7 +19,7 @@ node default {
 	    require		=> Class['ruby::gem'],
   	}
 
-  	class { 'imagemagick':
+  	package { 'imagemagick':
   		ensure	=> installed,
   	}
 }
