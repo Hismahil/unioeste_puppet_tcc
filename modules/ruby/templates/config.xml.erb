@@ -46,11 +46,15 @@ rake test</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
       <command>cp /vagrant/tcc.pem /var/lib/jenkins/jobs/app/workspace
+cap production deploy:upload_database_cfg
+cap production deploy:upload_secrets_cfg
+cap production deploy:cleanup_assets
 cap production deploy
-cap deploy:set_database_cfg
-cap deploy:set_secrets_cfg
-cap bundler:install 
-cap deploy:restart</command>
+cap production deploy:compile_assets
+cap production deploy:set_database_cfg
+cap production deploy:set_secrets_cfg
+cap production bundler:install 
+cap production deploy:restart</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

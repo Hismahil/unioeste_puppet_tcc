@@ -25,7 +25,8 @@ class ruby($version = '2.2',
 	}
 
 	# install repository
-	class { 'ruby::repository': 
+	class { 'ruby::repository':
+		repo 		=> $repo,
 		require		=> Class['ruby::dependencies::ubuntu::ubuntu'],
 	}
 
