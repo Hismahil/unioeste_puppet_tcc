@@ -2,7 +2,7 @@ node default {
 	
 	# install ruby and passenger
 	class { 'ruby': 
-		user				=> 'vagrant',
+		user				=> 'ubuntu',
 		install_passenger	=> 'true',
 	}
 
@@ -19,4 +19,7 @@ node default {
 	    require		=> Class['ruby::gem'],
   	}
 
+  	class { 'imagemagick':
+  		ensure	=> installed,
+  	}
 }
