@@ -5,7 +5,7 @@ node default {
 	
 	class { 'ruby':
 		version		=> $ruby_version, 
-    	user  		=> 'vagrant',
+    	user  		=> 'ubuntu',
   	}
 
   	# install rails
@@ -57,9 +57,7 @@ node default {
     	password  => 'vagrant',
   	}
 
-  	exec { 'jenkins-sudo':
-		command		=> 'adduser jenkins sudo',
-		path		=> '/bin:/sbin:/usr/bin:/usr/sbin',
-		require		=> Class['ruby::jenkins::config'],		
-	}
+  	class { 'ruby::jenkins::permit':
+  		require		=> Class['ruby::jenkins::config'],
+  	}
 }
