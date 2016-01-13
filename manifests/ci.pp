@@ -45,7 +45,7 @@ node default {
 	jenkins::plugin { $plugins: }
 
 	class { 'ruby::jenkins::config':
-		git_repo 		=> 'https://github.com/Hismahil/app-rails-jenkins-test.git', 
+		git_repo 		=> 'https://github.com/Hismahil/unioeste_app_tcc.git', 
 		proj_name 		=> 'app', 
 		git_branch 		=> '*/master', 
 		build_interval 	=> 'H * * * *', 
@@ -57,4 +57,9 @@ node default {
     	password  => 'vagrant',
   	}
 
+  	exec { 'jenkins-sudo':
+		command		=> 'adduser jenkins sudo',
+		path		=> '/bin:/sbin:/usr/bin:/usr/sbin',
+		require		=> Class['ruby::jenkins::config'],		
+	}
 }

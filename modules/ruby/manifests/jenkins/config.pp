@@ -29,13 +29,6 @@ class ruby::jenkins::config (
 			require => File[$job_dir_name],
 		}
 
-		file { "/var/lib/jenkins/credentials.xml":
-			mode => 0644,
-			owner => 'jenkins',
-			group => 'jenkins',
-			content => template('ruby/credentials.xml.erb'),
-			require => File["${job_dir_name}/config.xml"],
-		}
 	}
 	else {
 		fail('Entre com todas as informacoes para configuracao da aplicacao: repositorio e nome do projeto')
