@@ -13,10 +13,12 @@ class ruby::passenger::vhost($server_name, $doc_root, $disable_site = undef, $ra
 		command		=> "a2ensite ${server_name}",
 		path 		=> '/bin:/sbin:/usr/bin:/usr/sbin',
 		require		=> File["/etc/apache2/sites-available/${server_name}.conf"],
+		notify		=> Service['apache2'],
 	}
 	
 	service { 'apache2':
-		ensure		=> running,
+		ensure  => 'running',
+    	enable  => true,
 	}
 
 	if $disable_site != undef {

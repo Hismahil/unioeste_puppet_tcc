@@ -53,6 +53,7 @@ cap production deploy
 cap production deploy:compile_assets
 cap production deploy:set_database_cfg
 cap production deploy:set_secrets_cfg
+cap production deploy:dbmigrate
 cap production bundler:install 
 cap production deploy:restart</command>
     </hudson.tasks.Shell>
