@@ -4,7 +4,7 @@ node default {
 
 	# install ruby and passenger
 	class { 'ruby': 
-		version				=> $ruby_version
+		version				=> $ruby_version,
 		user				=> 'ubuntu',
 		install_passenger	=> 'true',
 	}
