@@ -1,4 +1,5 @@
 node default {
+  # install ruby without documentation
   class { 'ruby': 
     user  => 'vagrant',
   }
@@ -10,6 +11,7 @@ node default {
     require => Class['ruby'],
   }
 
+  # install mysql and create a user
   class { 'ruby::dependencies::mysql::mysql':
     username  => 'vagrant',
     password  => 'vagrant',

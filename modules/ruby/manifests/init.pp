@@ -14,6 +14,7 @@ class ruby($version = '2.2',
 	# ruby versions
 	$ruby = ["ruby${version}", "ruby${version}-dev"]
 
+	# apt update
 	exec{ 'update':
 		command		=> 'apt-get update',
 		path		=> '/usr/bin:/bin',
