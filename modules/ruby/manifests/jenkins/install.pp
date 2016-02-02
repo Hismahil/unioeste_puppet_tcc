@@ -1,3 +1,14 @@
+# [git_repo]			git repository
+# [github_proj_name]	name of project
+# [git_branch]			branch of repository
+# [job_dir_name]		name o job directory
+# [sgdb_name]			switch a sgdb (mysql/postgres)
+# [sgdb_install]		install sgdb?
+# [username]			user for database
+# [password] 			password for database
+# [database]			name of database to create
+# [gem_version]			version of gem
+
 class ruby::jenkins::install(
 	$git_repo, 
 	$github_proj_name, 
@@ -9,15 +20,16 @@ class ruby::jenkins::install(
 	$username,
 	$password,
 	$database = undef,
-	$chmod_gem_path = 'false',
 	$gem_version = undef) {
 
+	# install jenkins and java
 	class { 'jenkins':
 		config_hash => {
 			'JAVA_ARGS' => { 'value' => '-Xmx256m' }
 		},
 	}
 
+	# config project to jenkins
 	class { 'ruby::jenkins::config':
 		git_repo				=> $git_repo, 
 		github_proj_name		=> $github_proj_name, 
@@ -30,6 +42,7 @@ class ruby::jenkins::install(
 
 	if $sgdb_install == 'true' {
 
+		# install mysql
 		if $sgdb_name == 'mysql' {
 			class { 'ruby::dependencies::mysql::mysql':
 				username	=> $username, 
@@ -37,7 +50,7 @@ class ruby::jenkins::install(
 			}
 		}
 		else {
-			# postgres é instalado e já cria um database
+			# install postgres and create database
 			if $database != undef {
 				class {'ruby::dependencies::postgres::postgresql':
 					data_base	=> $database,
@@ -46,16 +59,9 @@ class ruby::jenkins::install(
 				}
 			}
 			else {
-				fail('Porfavor, especifique o database que será criado junto com a instalação do postgresql')
+				fail('Enter with a database')
 			}
 		}
 	}
 
-	if $chmod_gem_path == 'true' {
-		class { 'chmod': 
-			dir 			=> "/var/lib/gems/${gem_version}/gems", 
-			properties		=> '777',
-			require			=> Class['ruby'],
-		}
-	}
 }

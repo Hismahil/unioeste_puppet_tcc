@@ -5,11 +5,11 @@
 # $install_passenger 	=> for install passenger
 # $repo 				=> repository for ruby
 
-class ruby($version = '2.2',
-	$passenger_version = '5.0.9',
-	$user = undef,
-	$install_passenger = 'false',
-	$repo = 'ppa:brightbox/ruby-ng') {
+class ruby($version = '2.2',			# default ruby version
+	$passenger_version = '5.0.9',		# default passenger version
+	$user = undef,						# for .gemrc
+	$install_passenger = 'false',		# for install passenger
+	$repo = 'ppa:brightbox/ruby-ng') {	# for other repository without RVM
 
 	# ruby versions
 	$ruby = ["ruby${version}", "ruby${version}-dev"]
@@ -22,25 +22,25 @@ class ruby($version = '2.2',
 
 	# install dependencies
 	class { 'ruby::dependencies::ubuntu::ubuntu': 
-		require		=> Exec['update'],
+		require		=> Exec['update'], # install ruby and rails dependencies if apt update
 	}
 
 	# install repository
 	class { 'ruby::repository':
-		repo 		=> $repo,
-		require		=> Class['ruby::dependencies::ubuntu::ubuntu'],
+		repo 		=> $repo,			# install repository
+		require		=> Class['ruby::dependencies::ubuntu::ubuntu'], # require dependencies
 	}
 
 	# install rubies
 	package { $ruby:
 		ensure		=> installed,
-		require		=> Class['ruby::repository'],
+		require		=> Class['ruby::repository'], 	#require repository
 	}
 
 	# copy .gemrc
 	if $user != undef{
 		file {
-			"/home/${user}/.gemrc":
+			"/home/${user}/.gemrc":		# current user
 			ensure  => present,
 			source => 'puppet:///modules/ruby/.gemrc',
 		}
@@ -49,10 +49,10 @@ class ruby($version = '2.2',
 	# install passenger
 	if $install_passenger == 'true' {
 		class { 'ruby::passenger::passenger': 
-			passenger_version	=> $passenger_version,
-			ruby_version		=> $version,
-			gem_version			=> $version,
-			require		=> Package[$ruby],
+			passenger_version	=> $passenger_version,	# passenger version
+			ruby_version		=> $version,			# ruby version
+			gem_version			=> $version,			# gem version
+			require		=> Package[$ruby],				# require ruby intalled
 		}
 	}
 		
